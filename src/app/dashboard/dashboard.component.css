@@ -1,0 +1,104 @@
+.container{
+    
+    margin-top: 5% !important;
+    display:flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.card_col {
+   
+    min-width: 20%;
+    flex: 1;
+    margin-right: 5%;
+    display:flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+.bigDiv{
+    display:flex;
+    justify-content: space-evenly;
+    align-items: center  !important;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+
+}
+
+
+.tabela{
+    display:flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100%;
+    width: 90%;
+}
+
+.tudo
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.imagem {
+    height: 50px;
+    width: 50px;
+
+}
+
+.card-header
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+.card-footer{
+    justify-content: center;
+    align-items: center;
+}
+
+ul {
+    list-style-type: none;
+  }
+
+.trash{
+    height: 20px;
+    width: 20px;
+  
+
+}
+
+.deletecard {
+    margin-top: 5% !important;
+    display:flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+
+
+
+input[type=text] {
+    
+
+    padding: 12px 20px !important;
+    margin: 8px 0 !important;
+        
+    border-radius: 20px !important;
+}
+.table-responsive{
+    overflow: auto;
+}

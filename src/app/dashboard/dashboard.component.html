@@ -1,0 +1,110 @@
+<div class="tudo">
+
+
+  <div class="panel-header panel-header-lg">
+    <canvas baseChart class="chart" id="bigDashboardChart" [datasets]="lineBigDashboardChartData"
+      [labels]="lineBigDashboardChartLabels" [colors]="lineBigDashboardChartColors"
+      [options]="lineBigDashboardChartOptions" [chartType]="lineBigDashboardChartType"
+      (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+  </div>
+
+
+  <div class="container">
+    <div class="card deletecard">
+      <div class="card-header">
+
+
+        <ul class="container">
+          <li *ngFor="let city of sortedData" class="card_col">
+            <div class="card deletecard">
+              <div class="card-header">
+                <p>{{city.name}}</p>
+
+              </div>
+              <img (click)="deleteCity(city)" src="/assets/img/trash.png" class="trash" alt="">
+            </div>
+          </li>
+        </ul>
+
+
+
+
+
+
+      </div>
+
+      <form (submit)="addCity()">
+        <input type="text" placeholder="Add city" (keyup)="onKey($event)">
+      </form>
+      <img src="/assets/img/add.png" (click)="addCity()" alt="">
+
+    </div>
+  </div>
+
+  <div class="bigDiv">
+
+
+    <div class="container">
+      <div *ngFor="let city of sortedData" class="card_col">
+        <div class="card card-chart ">
+          <div class="card-header">
+
+            <h4 class="card-title">{{city.name}}</h4>
+
+
+            <img *ngIf="city.weather == 'Clear'" src="/assets/img/sun.png" class="imagem" alt="sol">
+            <img *ngIf="city.weather == 'Clouds'" src="/assets/img/cloud.png" class="imagem" alt="sol">
+            <img *ngIf="city.weather == 'Rain'" src="/assets/img/rainy.png" class="imagem" alt="sol">
+            <img *ngIf="city.weather == 'Mist'" src="/assets/img/mist.png" class="imagem" alt="sol">
+            <img *ngIf="city.weather == 'Drizzle'" src="/assets/img/light-rain.png" class="imagem" alt="sol">
+            <p>{{city.description}}</p>
+            <p>{{city.temperature}}ºC</p>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="tabela">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-category">Weather</h5>
+          <h4 class="card-title"> Weather info </h4>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table matSort class="table">
+              <thead class=" text-primary">
+                <th (click)="sortData('cityname')">
+                  City
+                </th>
+                <th (click)="sortData('temperature')">
+                  Temperature
+                </th>
+                <th (click)="sortData('sunset')">
+                  Sunset Time
+                </th>
+                <th (click)="sortData('sunrise')" class="text-right">
+                  Sunrise Time
+                </th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let city of sortedData">
+                  <td>{{city.name}}</td>
+                  <td>{{city.temperature}}</td>
+                  <td>{{city.sunset }}</td>
+                  <td class="text-right">{{city.sunrise }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

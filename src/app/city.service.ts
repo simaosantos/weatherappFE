@@ -22,7 +22,7 @@ export class CityService {
 
   getCities(cidades : string[]):  Observable<City[]> {
 
-    const url = 'http://localhost:8000/cidades'
+    const url = 'https://sleepy-caverns-92302.herokuapp.com' + '/cidades' //||   'http://localhost:8000/cidades'
     return this.http.post<City[]>(url, {cidades}).pipe(
       tap(_ => console.log('fetched cities' )),
       catchError(this.handleError<City[]>('getCities', []))
@@ -31,8 +31,8 @@ export class CityService {
 
 
   getCity(cidade: String): Observable<City> {
-    const preurl = 'http://localhost:8000/cidade'
-    const url = `${preurl}` + '/' +cidade;
+    const preurl = 'https://sleepy-caverns-92302.herokuapp.com' + '/cidades' //|| 'http://localhost:8000/cidade';
+    const url = `${preurl}` + '/' + cidade;
     return this.http.get<City>(url, ).pipe(
       tap(_ => console.log(`fetched cidade ${cidade}`)),
       catchError(this.handleError<City>(`getCity =${cidade}`))

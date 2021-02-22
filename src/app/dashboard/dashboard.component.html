@@ -10,10 +10,11 @@
 
 
   <div class="container">
+   
     <div class="card deletecard">
       <div class="card-header">
-
-
+        
+       
         <ul class="container">
           <li *ngFor="let city of sortedData" class="card_col">
             <div class="card deletecard">
@@ -21,22 +22,19 @@
                 <p>{{city.name}}</p>
 
               </div>
-              <img (click)="deleteCity(city)" src="/assets/img/trash.png" class="trash" alt="">
+              <img (click)="deleteCity(city)" src="/assets/img/trash.png" class="trash cursor" alt="">
             </div>
           </li>
         </ul>
 
 
 
-
-
-
       </div>
 
       <form (submit)="addCity()">
-        <input type="text" placeholder="Add city" (keyup)="onKey($event)">
+        <input type="text" class="form-control" placeholder="Add city" (keyup)="onKey($event)">
       </form>
-      <img src="/assets/img/add.png" (click)="addCity()" alt="">
+     <!-- <img src="/assets/img/add.png" class='cursor' (click)="addCity()" alt="">-->
 
     </div>
   </div>
@@ -78,25 +76,26 @@
           <div class="table-responsive">
             <table matSort class="table">
               <thead class=" text-primary">
-                <th (click)="sortData('cityname')">
+                <th (click)="sortData('cityname', this.diretion.cityname)"   class="cursor">
                   City
                 </th>
-                <th (click)="sortData('temperature')">
+                <th (click)="sortData('temperature',  this.diretion.temperature)"  class="cursor" >
                   Temperature
                 </th>
-                <th (click)="sortData('sunset')">
-                  Sunset Time
-                </th>
-                <th (click)="sortData('sunrise')" class="text-right">
+                <th (click)="sortData('sunrise', this.diretion.sunrise)"  class="cursor">
                   Sunrise Time
                 </th>
+                <th (click)="sortData('sunset',  this.diretion.sunset)"  class="text-right cursor">
+                  Sunset Time
+                </th>
+              
               </thead>
               <tbody>
                 <tr *ngFor="let city of sortedData">
                   <td>{{city.name}}</td>
                   <td>{{city.temperature}}</td>
-                  <td>{{city.sunset }}</td>
-                  <td class="text-right">{{city.sunrise }}</td>
+                  <td> {{city.sunrise}}</td>
+                  <td class="text-right">{{city.sunset }}</td>
                 </tr>
               </tbody>
             </table>

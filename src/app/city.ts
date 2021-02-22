@@ -3,7 +3,7 @@ export interface City {
     weather : string;
     id: number;
     name: string;
-    temperature: number; 
+    temperature: string; 
     sunrise: number;
     sunset : number;
   }

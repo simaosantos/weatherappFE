@@ -22,7 +22,7 @@ export class CityService {
 
   getCities(cidades : string[]):  Observable<City[]> {
 
-    const url = 'https://backendweatherapp.herokuapp.com' + '/cidades' //||   'http://localhost:8000/cidades'
+    const url =    'http://localhost:5000/cidades'//'https://backendweatherapp.herokuapp.com' + '/cidades' //
     return this.http.post<City[]>(url, {cidades}).pipe(
       tap(_ => console.log('fetched cities' )),
       catchError(this.handleError<City[]>('getCities', []))
@@ -31,7 +31,7 @@ export class CityService {
 
 
   getCity(cidade: String): Observable<City> {
-    const preurl = 'https://backendweatherapp.herokuapp.com' + '/cidades' //|| 'http://localhost:8000/cidade';
+    const preurl =   'http://localhost:8000/cidade';// 'https://backendweatherapp.herokuapp.com' + '/cidades'
     const url = `${preurl}` + '/' + cidade;
     return this.http.get<City>(url, ).pipe(
       tap(_ => console.log(`fetched cidade ${cidade}`)),

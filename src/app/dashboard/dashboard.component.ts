@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { CityService } from '../city.service';
 import { City } from '../city';
 
 import { BaseChartDirective } from 'ng2-charts';
+import { Subscription } from 'rxjs';
 
 
 
@@ -14,7 +15,7 @@ import { BaseChartDirective } from 'ng2-charts';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild(BaseChartDirective) _chart;
 
   public city!: City;
@@ -30,8 +31,8 @@ export class DashboardComponent implements OnInit {
   public lineBigDashboardChartLabels: Array<any>;
   public lineBigDashboardChartColors: Array<any>
   public inputValue: string;
-
-
+  subscription: Subscription;
+  public diretion;
 
   public dataTable: City[];
   public displayedColumns: string[];
@@ -67,40 +68,37 @@ export class DashboardComponent implements OnInit {
     console.log('searched' + this.inputValue)
 
 
-    let find = this.sortedData.find(o => o.name === this.inputValue);
+    // let find = this.sortedData.find(o => o.name === this.inputValue);
 
 
+    this.subscription = this.cityService.getCities([this.inputValue]).subscribe((data: any) => {
+      
+      if (data.cod != '404' && data.cod != undefined ) {
+        data.forEach(element => {
+          let sunrise = new Date(parseInt(element.sunrise) * 1000);
+          element.sunrise = addZero(sunrise.getHours()).toString() + ':' + addZero(sunrise.getMinutes()).toString();
+          let sunset = new Date(parseInt(element.sunset) * 1000);
+          element.sunset = addZero(sunset.getHours()).toString() + ':' + addZero(sunset.getMinutes()).toString();
+          //check if element already exists
 
+          let find = this.sortedData.find(o => o.id === element.id);
+          if (find === undefined) {
+            this.sortedData.push(element)
+            this.lineBigDashboardChartData[0].data = this.sortedData.map(o => o.temperature);
+            this.lineBigDashboardChartLabels = this.sortedData.map(o => o.name);
+          }
 
-    this.cityService.getCities([this.inputValue]).subscribe((data: any) => {
-      console.log('data', data)
-      data.forEach(element => {
-        let sunrise = new Date(parseInt(element.sunrise) * 1000);
-        element.sunrise = addZero(sunrise.getHours()).toString() + ':' + addZero(sunrise.getMinutes()).toString();
-        let sunset = new Date(parseInt(element.sunset) * 1000);
-        element.sunset = addZero(sunset.getHours()).toString() + ':' + addZero(sunset.getMinutes()).toString();
-        let find = this.sortedData.find(o => o.id === element.id);
-        if(find === undefined)
-        {
-          this.sortedData.push(element)
-          this.lineBigDashboardChartData[0].data = this.sortedData.map(o => o.temperature);
-          this.lineBigDashboardChartLabels = this.sortedData.map(o => o.name);
-        }
-        
-      });
-
+        });
+      }
     });
 
-    
     this._chart.refresh()
-
 
   }
 
   deleteCity(city: City) {
 
-    console.log("tocaste me", city.name)
-
+    
     this.sortedData = this.sortedData.filter(obj => obj !== city);
     this.lineBigDashboardChartData[0].data = this.sortedData.map(o => o.temperature);
     this.lineBigDashboardChartLabels = this.sortedData.map(o => o.name);
@@ -112,9 +110,10 @@ export class DashboardComponent implements OnInit {
 
     console.log(this.inputValue)
   }
-  sortData(id: string) {
+  sortData(id: string, isAsc: boolean) {
 
     const data = this.sortedData.slice();
+   
 
     if (!id) {
       this.sortedData = data;
@@ -123,26 +122,26 @@ export class DashboardComponent implements OnInit {
 
     this.sortedData = data.sort((a, b) => {
       //const isAsc = sort.direction === 'asc';
-      const isAsc = true;
+      //isAsc = true;
+ 
       switch (id) {
         case 'cityname': return compare(a.name, b.name, isAsc);
-        case 'temperature': return compare(a.temperature, b.temperature, isAsc);
+        case 'temperature': return compare(parseInt(a.temperature), parseInt(b.temperature), isAsc);
         case 'sunrise': return compare(a.sunrise, b.sunrise, isAsc);
         case 'sunset': return compare(a.sunset, b.sunset, isAsc);
         default: return 0;
       }
-    });
 
+    });
+    this.diretion[id] = this.diretion[id] ? false : true;
 
   }
 
 
 
-
-
   getCities() {
 
-    this.cityService.getCities(["Viseu", "Lisboa", "Porto", "Madrid", "Paris", "Mangualde"]).subscribe((data: any) => {
+    this.subscription = this.cityService.getCities(["Viseu", "Lisboa", "Porto", "Madrid", "Paris", "Mangualde"]).subscribe((data: any) => {
 
       //this.city = city;
 
@@ -273,14 +272,17 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe()
+  }
   ngOnInit() {
 
-    /* this.directions = {
-      name: '',
-      temperature: '',
-      sunset: '',
-      sunri se: ''
-    }*/
+    this.diretion = {
+      cityname: true,
+      temperature: true,
+      sunset: true,
+      sunrise: true
+    }
     this.getCities();
 
 

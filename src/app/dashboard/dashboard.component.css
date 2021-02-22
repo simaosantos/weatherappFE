@@ -102,3 +102,7 @@ input[type=text] {
 .table-responsive{
     overflow: auto;
 }
+
+.cursor{
+     cursor: pointer; 
+}
